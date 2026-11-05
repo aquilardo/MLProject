@@ -1,0 +1,346 @@
+{
+  "normal": {
+    "n_baseline": 5000,
+    "n_new": 1000,
+    "has_drift": false,
+    "drifted_columns": [],
+    "columns": [
+      {
+        "column": "age",
+        "kind": "numeric",
+        "test": "ks",
+        "statistic": 0.0128,
+        "p_value": 0.9990460833074282,
+        "psi": 0.010409948900854771,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      },
+      {
+        "column": "balance",
+        "kind": "numeric",
+        "test": "ks",
+        "statistic": 0.0392,
+        "p_value": 0.15170739597900856,
+        "psi": 0.013925151022577388,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      },
+      {
+        "column": "day",
+        "kind": "numeric",
+        "test": "ks",
+        "statistic": 0.026,
+        "p_value": 0.6199050972701959,
+        "psi": 0.004744743683408383,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      },
+      {
+        "column": "duration",
+        "kind": "numeric",
+        "test": "ks",
+        "statistic": 0.038,
+        "p_value": 0.17709286353541695,
+        "psi": 0.009387057509115386,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      },
+      {
+        "column": "campaign",
+        "kind": "numeric",
+        "test": "ks",
+        "statistic": 0.0282,
+        "p_value": 0.5154135394646587,
+        "psi": 0.0044914529416759,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      },
+      {
+        "column": "pdays",
+        "kind": "numeric",
+        "test": "ks",
+        "statistic": 0.0162,
+        "p_value": 0.9793869723714779,
+        "psi": 0.00012996011109264085,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      },
+      {
+        "column": "previous",
+        "kind": "numeric",
+        "test": "ks",
+        "statistic": 0.0116,
+        "p_value": 0.9998438418107579,
+        "psi": 3.6824975888904726e-05,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      },
+      {
+        "column": "job",
+        "kind": "categorical",
+        "test": "chi2",
+        "statistic": 7.470701710099849,
+        "p_value": 0.75978546810759,
+        "psi": 0.008621687536325712,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      },
+      {
+        "column": "marital",
+        "kind": "categorical",
+        "test": "chi2",
+        "statistic": 0.14759345344026106,
+        "p_value": 0.9288604871700857,
+        "psi": 0.00017786552797440322,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      },
+      {
+        "column": "education",
+        "kind": "categorical",
+        "test": "chi2",
+        "statistic": 3.6045999081805267,
+        "p_value": 0.3074471028939565,
+        "psi": 0.004062958505799571,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      },
+      {
+        "column": "default",
+        "kind": "categorical",
+        "test": "chi2",
+        "statistic": 0.13278100125173717,
+        "p_value": 0.7155658498789219,
+        "psi": 0.00016476508872725963,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      },
+      {
+        "column": "housing",
+        "kind": "categorical",
+        "test": "chi2",
+        "statistic": 0.039138364614495276,
+        "p_value": 0.8431747992487493,
+        "psi": 4.699338213186763e-05,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      },
+      {
+        "column": "loan",
+        "kind": "categorical",
+        "test": "chi2",
+        "statistic": 0.33158331030671456,
+        "p_value": 0.5647282615979355,
+        "psi": 0.0004031204246087195,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      },
+      {
+        "column": "contact",
+        "kind": "categorical",
+        "test": "chi2",
+        "statistic": 3.3876723675807896,
+        "p_value": 0.18381302917443743,
+        "psi": 0.004000538279163772,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      },
+      {
+        "column": "month",
+        "kind": "categorical",
+        "test": "chi2",
+        "statistic": 15.18955889263436,
+        "p_value": 0.17398227880138806,
+        "psi": 0.01790900414886585,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      },
+      {
+        "column": "poutcome",
+        "kind": "categorical",
+        "test": "chi2",
+        "statistic": 1.5207331172191436,
+        "p_value": 0.6774934711899463,
+        "psi": 0.0017738383531216556,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      }
+    ]
+  },
+  "drifted": {
+    "n_baseline": 5000,
+    "n_new": 1000,
+    "has_drift": true,
+    "drifted_columns": [
+      "age",
+      "balance",
+      "duration",
+      "campaign",
+      "job",
+      "month",
+      "poutcome"
+    ],
+    "columns": [
+      {
+        "column": "age",
+        "kind": "numeric",
+        "test": "ks",
+        "statistic": 0.6702,
+        "p_value": 2.48e-321,
+        "psi": 6.975296290510304,
+        "drifted": true,
+        "reason": "KS p=0.0000 < 0.05 y PSI=6.975 >= 0.25"
+      },
+      {
+        "column": "balance",
+        "kind": "numeric",
+        "test": "ks",
+        "statistic": 0.382,
+        "p_value": 2.9343193471030544e-109,
+        "psi": 0.8814643004555435,
+        "drifted": true,
+        "reason": "KS p=0.0000 < 0.05 y PSI=0.881 >= 0.25"
+      },
+      {
+        "column": "day",
+        "kind": "numeric",
+        "test": "ks",
+        "statistic": 0.026,
+        "p_value": 0.6199050972701959,
+        "psi": 0.004744743683408383,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      },
+      {
+        "column": "duration",
+        "kind": "numeric",
+        "test": "ks",
+        "statistic": 0.3018,
+        "p_value": 1.3583108358685061e-67,
+        "psi": 0.4956743431399769,
+        "drifted": true,
+        "reason": "KS p=0.0000 < 0.05 y PSI=0.496 >= 0.25"
+      },
+      {
+        "column": "campaign",
+        "kind": "numeric",
+        "test": "ks",
+        "statistic": 0.7812,
+        "p_value": 9.6e-322,
+        "psi": 11.044243895080463,
+        "drifted": true,
+        "reason": "KS p=0.0000 < 0.05 y PSI=11.044 >= 0.25"
+      },
+      {
+        "column": "pdays",
+        "kind": "numeric",
+        "test": "ks",
+        "statistic": 0.0162,
+        "p_value": 0.9793869723714779,
+        "psi": 0.00012996011109264085,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      },
+      {
+        "column": "previous",
+        "kind": "numeric",
+        "test": "ks",
+        "statistic": 0.0116,
+        "p_value": 0.9998438418107579,
+        "psi": 3.6824975888904726e-05,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      },
+      {
+        "column": "job",
+        "kind": "categorical",
+        "test": "chi2",
+        "statistic": 4080.30314747506,
+        "p_value": 0.0,
+        "psi": 13.354313050248486,
+        "drifted": true,
+        "reason": "chi2 p=0.0000 < 0.05 y PSI=13.354 >= 0.25"
+      },
+      {
+        "column": "marital",
+        "kind": "categorical",
+        "test": "chi2",
+        "statistic": 0.14759345344026106,
+        "p_value": 0.9288604871700857,
+        "psi": 0.00017786552797440322,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      },
+      {
+        "column": "education",
+        "kind": "categorical",
+        "test": "chi2",
+        "statistic": 3.6045999081805267,
+        "p_value": 0.3074471028939565,
+        "psi": 0.004062958505799571,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      },
+      {
+        "column": "default",
+        "kind": "categorical",
+        "test": "chi2",
+        "statistic": 0.13278100125173717,
+        "p_value": 0.7155658498789219,
+        "psi": 0.00016476508872725963,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      },
+      {
+        "column": "housing",
+        "kind": "categorical",
+        "test": "chi2",
+        "statistic": 0.039138364614495276,
+        "p_value": 0.8431747992487493,
+        "psi": 4.699338213186763e-05,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      },
+      {
+        "column": "loan",
+        "kind": "categorical",
+        "test": "chi2",
+        "statistic": 0.33158331030671456,
+        "p_value": 0.5647282615979355,
+        "psi": 0.0004031204246087195,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      },
+      {
+        "column": "contact",
+        "kind": "categorical",
+        "test": "chi2",
+        "statistic": 3.3876723675807896,
+        "p_value": 0.18381302917443743,
+        "psi": 0.004000538279163772,
+        "drifted": false,
+        "reason": "sin cambio significativo"
+      },
+      {
+        "column": "month",
+        "kind": "categorical",
+        "test": "chi2",
+        "statistic": 5831.250000000002,
+        "p_value": 0.0,
+        "psi": 17.03643976768813,
+        "drifted": true,
+        "reason": "chi2 p=0.0000 < 0.05 y PSI=17.036 >= 0.25"
+      },
+      {
+        "column": "poutcome",
+        "kind": "categorical",
+        "test": "chi2",
+        "statistic": 4948.590947907772,
+        "p_value": 0.0,
+        "psi": 16.066863439964692,
+        "drifted": true,
+        "reason": "chi2 p=0.0000 < 0.05 y PSI=16.067 >= 0.25"
+      }
+    ]
+  }
+}

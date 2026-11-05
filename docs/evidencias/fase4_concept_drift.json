@@ -1,0 +1,82 @@
+{
+  "criterion": {
+    "threshold_drop_pct": 0.15,
+    "consecutive_batches_required": 3,
+    "retraining_triggered": true,
+    "triggered_at_batch": 5
+  },
+  "results": [
+    {
+      "batch_idx": 1,
+      "n_rows": 2000,
+      "label_flip_fraction": 0.0,
+      "f1": 0.49019607843137253,
+      "f1_reference": 0.49236192714453586,
+      "drop_pct": 0.0043988955964248105,
+      "alert": false
+    },
+    {
+      "batch_idx": 2,
+      "n_rows": 2000,
+      "label_flip_fraction": 0.0,
+      "f1": 0.4327485380116959,
+      "f1_reference": 0.49236192714453586,
+      "drop_pct": 0.12107635835810697,
+      "alert": false
+    },
+    {
+      "batch_idx": 3,
+      "n_rows": 2000,
+      "label_flip_fraction": 0.05,
+      "f1": 0.41350210970464135,
+      "f1_reference": 0.49236192714453586,
+      "drop_pct": 0.16016635952589553,
+      "alert": true
+    },
+    {
+      "batch_idx": 4,
+      "n_rows": 2000,
+      "label_flip_fraction": 0.1,
+      "f1": 0.35231316725978645,
+      "f1_reference": 0.49236192714453586,
+      "drop_pct": 0.28444270802367955,
+      "alert": true
+    },
+    {
+      "batch_idx": 5,
+      "n_rows": 2000,
+      "label_flip_fraction": 0.2,
+      "f1": 0.22118380062305296,
+      "f1_reference": 0.49236192714453586,
+      "drop_pct": 0.5507698941999568,
+      "alert": true
+    },
+    {
+      "batch_idx": 6,
+      "n_rows": 2000,
+      "label_flip_fraction": 0.3,
+      "f1": 0.16932515337423312,
+      "f1_reference": 0.49236192714453586,
+      "drop_pct": 0.6560961682065097,
+      "alert": true
+    },
+    {
+      "batch_idx": 7,
+      "n_rows": 2000,
+      "label_flip_fraction": 0.45,
+      "f1": 0.11218568665377177,
+      "f1_reference": 0.49236192714453586,
+      "drop_pct": 0.7721479251972321,
+      "alert": true
+    },
+    {
+      "batch_idx": 8,
+      "n_rows": 2000,
+      "label_flip_fraction": 0.6,
+      "f1": 0.10757575757575757,
+      "f1_reference": 0.49236192714453586,
+      "drop_pct": 0.78151081217907,
+      "alert": true
+    }
+  ]
+}

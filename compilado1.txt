@@ -1,0 +1,2130 @@
+COMPILADO DE ARCHIVOS 
+ 
+ 
+================================= 
+.env.example 
+================================= 
+ 
+﻿MLFLOW_TRACKING_URI=http://localhost:5000
+MLFLOW_EXPERIMENT_NAME=bank-classification
+MLFLOW_MODEL_NAME=bank_deposit_classifier
+MLFLOW_MODEL_ALIAS=champion
+ 
+================================= 
+.gitignore 
+================================= 
+ 
+﻿__pycache__/
+*.py[cod]
+*.so
+.venv/
+env/
+venv/
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+mlruns/
+mlflow.db
+mlartifacts/
+*.pkl
+*.joblib
+*.log
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+.env
+ 
+================================= 
+compilado1.txt 
+================================= 
+ 
+COMPILADO DE ARCHIVOS 
+ 
+ 
+================================= 
+.env.example 
+================================= 
+ 
+﻿MLFLOW_TRACKING_URI=http://localhost:5000
+MLFLOW_EXPERIMENT_NAME=bank-classification
+MLFLOW_MODEL_NAME=bank_deposit_classifier
+MLFLOW_MODEL_ALIAS=champion
+ 
+================================= 
+.gitignore 
+================================= 
+ 
+﻿__pycache__/
+*.py[cod]
+*.so
+.venv/
+env/
+venv/
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+mlruns/
+mlflow.db
+mlartifacts/
+*.pkl
+*.joblib
+*.log
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+.env
+ 
+================================= 
+compilado1.txt 
+================================= 
+ 
+COMPILADO DE ARCHIVOS 
+ 
+ 
+================================= 
+.env.example 
+================================= 
+ 
+﻿MLFLOW_TRACKING_URI=http://localhost:5000
+MLFLOW_EXPERIMENT_NAME=bank-classification
+MLFLOW_MODEL_NAME=bank_deposit_classifier
+MLFLOW_MODEL_ALIAS=champion
+ 
+================================= 
+.gitignore 
+=================== 
+================================= 
+conftest.py 
+================================= 
+ 
+﻿import sys
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+ 
+================================= 
+fix-fase0-fase1.ps1 
+================================= 
+ 
+# =====================================================================
+#  fix-fase0-fase1.ps1
+#  Reconstruye la estructura faltante de Fase 0 + Prueba 1 + Fase 1
+#  Ejecutar desde la raíz del proyecto:
+#     .\fix-fase0-fase1.ps1
+# =====================================================================
+
+$ErrorActionPreference = "Stop"
+$Root = (Get-Location).Path
+Write-Host "Raiz del proyecto: $Root" -ForegroundColor Cyan
+
+# ---- 1. Carpetas ----
+Write-Host "`n[1/12] Creando carpetas..." -ForegroundColor Cyan
+$folders = @(
+    "data\raw",
+    "data\baseline",
+    "src\inference",
+    "src\drift",
+    "tests",
+    "docker",
+    "k8s",
+    "docs\evidencias",
+    "scripts",
+    ".github\workflows"
+)
+foreach ($f in $folders) {
+    New-Item -ItemType Directory -Force -Path (Join-Path $Root $f) | Out-Null
+}
+
+# ---- 2. .gitignore ----
+Write-Host "[2/12] .gitignore" -ForegroundColor Cyan
+@"
+__pycache__/
+*.py[cod]
+*.so
+.venv/
+env/
+venv/
+build/
+dist/
+*.egg-info/
+.pytest_cache/
+mlruns/
+mlflow.db
+mlartifacts/
+*.pkl
+*.joblib
+*.log
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+.env
+"@ | Set-Content -Path (Join-Path $Root ".gitignore") -Encoding UTF8
+
+# ---- 3. .env.example ----
+Write-Host "[3/12] .env.example" -ForegroundColor Cyan
+@"
+MLFLOW_TRACKING_URI=http://localhost:5000
+MLFLOW_EXPERIMENT_NAME=bank-classification
+MLFLOW_MODEL_NAME=bank_deposit_classifier
+MLFLOW_MODEL_ALIAS=champion
+"@ | Set-Content -Path (Join-Path $Root ".env.example") -Encoding UTF8
+
+# ---- 4. pytest.ini ----
+Write-Host "[4/12] pytest.ini" -ForegroundColor Cyan
+@"
+[pytest]
+testpaths = tests
+python_files = test_*.py
+python_classes = Test*
+python_functions = test_*
+addopts = -v --tb=short
+"@ | Set-Content -Path (Join-Path $Root "pytest.ini") -Encoding UTF8
+
+# ---- 5. conftest.py ----
+Write-Host "[5/12] conftest.py" -ForegroundColor Cyan
+@"
+import sys
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+"@ | Set-Content -Path (Join-Path $Root "conftest.py") -Encoding UTF8
+
+# ---- 6. README.md ----
+Write-Host "[6/12] README.md" -ForegroundColor Cyan
+@"
+# Bank Deposit Classifier - Proyecto MLOps
+
+Proyecto end-to-end: MLflow + Docker + Kubernetes + Drift.
+
+## Dataset
+- Fuente: data/raw/bank-full.csv (UCI Bank Marketing).
+- Problema: clasificacion binaria (y: yes/no).
+- Registros: ~45211.
+
+## Fases
+- [ ] Fase 1 - Modelo + MLflow
+- [ ] Fase 2 - Docker
+- [ ] Fase 3 - Kubernetes
+- [ ] Fase 4 - Drift
+- [ ] Fase 5 (extra) - UI
+
+## Reparto de trabajo
+| Integrante | Componentes |
+|------------|-------------|
+| Nombre 1   | Fase 1      |
+| Nombre 2   | Fases 2-3   |
+| Nombre 3   | Fase 4      |
+"@ | Set-Content -Path (Join-Path $Root "README.md") -Encoding UTF8
+
+# ---- 7. __init__.py en paquetes ----
+Write-Host "[7/12] __init__.py" -ForegroundColor Cyan
+Set-Content -Path (Join-Path $Root "src\__init__.py")           -Value "# Paquete src"       -Encoding UTF8
+Set-Content -Path (Join-Path $Root "src\inference\__init__.py") -Value "# Paquete inference" -Encoding UTF8
+Set-Content -Path (Join-Path $Root "src\drift\__init__.py")     -Value "# Paquete drift"     -Encoding UTF8
+Set-Content -Path (Join-Path $Root "tests\__init__.py")         -Value "# Paquete tests"     -Encoding UTF8
+
+# ---- 8. src/utils.py ----
+Write-Host "[8/12] src/utils.py" -ForegroundColor Cyan
+@'
+"""Utilidades comunes: carga, split y baseline."""
+
+from __future__ import annotations
+from pathlib import Path
+import pandas as pd
+from sklearn.model_selection import train_test_split
+
+RANDOM_STATE = 42
+TEST_SIZE = 0.20
+TARGET_COL = "y"
+CSV_SEP = ";"
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+DATA_RAW = PROJECT_ROOT / "data" / "raw" / "bank-full.csv"
+DATA_BASELINE_DIR = PROJECT_ROOT / "data" / "baseline"
+BASELINE_FILE = DATA_BASELINE_DIR / "baseline.csv"
+
+EXPECTED_COLUMNS = [
+    "age", "job", "marital", "education", "default", "balance",
+    "housing", "loan", "contact", "day", "month", "duration",
+    "campaign", "pdays", "previous", "poutcome", "y",
+]
+
+NUMERIC_COLS = ["age", "balance", "day", "duration", "campaign", "pdays", "previous"]
+CATEGORICAL_COLS = [
+    "job", "marital", "education", "default", "housing", "loan",
+    "contact", "month", "poutcome",
+]
+
+
+def load_dataset(path=None) -> pd.DataFrame:
+    csv_path = Path(path) if path is not None else DATA_RAW
+    if not csv_path.exists():
+        raise FileNotFoundError(f"No se encontro el CSV en: {csv_path}")
+    df = pd.read_csv(csv_path, sep=CSV_SEP)
+    missing = set(EXPECTED_COLUMNS) - set(df.columns)
+    if missing:
+        raise ValueError(f"Faltan columnas esperadas: {missing}")
+    return df
+
+
+def binarize_target(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+    if df[TARGET_COL].dtype == object:
+        df[TARGET_COL] = df[TARGET_COL].map({"yes": 1, "no": 0}).astype(int)
+    return df
+
+
+def split_train_test(df, test_size=TEST_SIZE, random_state=RANDOM_STATE):
+    X = df.drop(columns=[TARGET_COL])
+    y = df[TARGET_COL]
+    return train_test_split(X, y, test_size=test_size,
+                            random_state=random_state, stratify=y)
+
+
+def save_baseline(X_train, n_rows=5000, random_state=RANDOM_STATE):
+    DATA_BASELINE_DIR.mkdir(parents=True, exist_ok=True)
+    n = min(n_rows, len(X_train))
+    baseline = X_train.sample(n=n, random_state=random_state).reset_index(drop=True)
+    baseline.to_csv(BASELINE_FILE, index=False)
+    return BASELINE_FILE
+
+
+def load_baseline() -> pd.DataFrame:
+    if not BASELINE_FILE.exists():
+        raise FileNotFoundError(
+            f"No existe baseline en {BASELINE_FILE}. Ejecuta scripts/run_prueba1.py"
+        )
+    return pd.read_csv(BASELINE_FILE)
+'@ | Set-Content -Path (Join-Path $Root "src\utils.py") -Encoding UTF8
+
+# ---- 9. tests/test_smoke.py ----
+Write-Host "[9/12] tests/test_smoke.py" -ForegroundColor Cyan
+@'
+"""Prueba 1 - Smoke test del dataset y pipeline base."""
+
+import pandas as pd
+import pytest
+
+from src.utils import (
+    BASELINE_FILE, CATEGORICAL_COLS, EXPECTED_COLUMNS, NUMERIC_COLS,
+    TARGET_COL, binarize_target, load_baseline, load_dataset,
+    save_baseline, split_train_test,
+)
+
+
+def test_dataset_loads_and_has_expected_columns():
+    df = load_dataset()
+    assert isinstance(df, pd.DataFrame)
+    assert len(df) >= 1000
+    assert set(EXPECTED_COLUMNS).issubset(set(df.columns))
+    assert set(NUMERIC_COLS).issubset(set(df.columns))
+    assert set(CATEGORICAL_COLS).issubset(set(df.columns))
+
+
+def test_target_binarization_and_imbalance():
+    df = binarize_target(load_dataset())
+    assert df[TARGET_COL].isin([0, 1]).all()
+    positive_rate = df[TARGET_COL].mean()
+    assert 0.05 < positive_rate < 0.25
+
+
+def test_split_is_reproducible_and_stratified():
+    df = binarize_target(load_dataset())
+    X_tr1, X_te1, y_tr1, y_te1 = split_train_test(df)
+    X_tr2, X_te2, y_tr2, y_te2 = split_train_test(df)
+    assert X_tr1.equals(X_tr2)
+    assert y_tr1.equals(y_tr2)
+    assert abs(y_tr1.mean() - y_te1.mean()) < 0.01
+    assert abs(len(X_te1) / len(df) - 0.20) < 0.01
+
+
+def test_baseline_saves_and_reloads(tmp_path, monkeypatch):
+    from src import utils
+    fake_baseline = tmp_path / "baseline.csv"
+    monkeypatch.setattr(utils, "BASELINE_FILE", fake_baseline)
+    monkeypatch.setattr(utils, "DATA_BASELINE_DIR", tmp_path)
+
+    df = binarize_target(load_dataset())
+    X_train, _, _, _ = split_train_test(df)
+    path = save_baseline(X_train, n_rows=200)
+    assert path.exists()
+    reloaded = pd.read_csv(path)
+    assert len(reloaded) == 200
+    assert set(NUMERIC_COLS + CATEGORICAL_COLS).issubset(set(reloaded.columns))
+    assert TARGET_COL not in reloaded.columns
+
+
+def test_scripts_have_expected_real_baseline():
+    if not BASELINE_FILE.exists():
+        pytest.skip("Baseline real no generado aun. Ejecuta scripts/run_prueba1.py")
+    baseline = load_baseline()
+    assert len(baseline) > 0
+    assert TARGET_COL not in baseline.columns
+    assert set(NUMERIC_COLS + CATEGORICAL_COLS).issubset(set(baseline.columns))
+'@ | Set-Content -Path (Join-Path $Root "tests\test_smoke.py") -Encoding UTF8
+
+# ---- 10. scripts/run_prueba1.py ----
+Write-Host "[10/12] scripts/run_prueba1.py" -ForegroundColor Cyan
+@'
+"""Ejecuta la Prueba 1 y genera el baseline real."""
+
+import sys
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
+
+import pandas as pd
+from src.utils import (
+    BASELINE_FILE, DATA_RAW, binarize_target, load_dataset,
+    save_baseline, split_train_test,
+)
+
+
+def main():
+    print("=" * 60)
+    print(" PRUEBA 1 - Smoke test del dataset y pipeline base")
+    print("=" * 60)
+
+    print(f"\n[1] Cargando dataset desde: {DATA_RAW}")
+    df = load_dataset()
+    print(f"    Filas: {len(df):,} | Columnas: {df.shape[1]}")
+
+    print("\n[2] Binarizando target 'y'")
+    df = binarize_target(df)
+    counts = df["y"].value_counts().sort_index()
+    for label, count in counts.items():
+        name = "yes" if label == 1 else "no"
+        print(f"      {label} ({name}): {count:,} ({100*count/len(df):.2f}%)")
+    assert 0.05 < df["y"].mean() < 0.25
+
+    print("\n[3] Split train/test (80/20 estratificado, random_state=42)")
+    X_train, X_test, y_train, y_test = split_train_test(df)
+    print(f"    Train: {len(X_train):,} | Test: {len(X_test):,}")
+    assert abs(y_train.mean() - y_test.mean()) < 0.01
+
+    print(f"\n[4] Generando baseline en: {BASELINE_FILE}")
+    path = save_baseline(X_train, n_rows=5000)
+    print(f"    Guardado en: {path}")
+    print(f"    Tamano: {path.stat().st_size / 1024:.1f} KB")
+
+    baseline = pd.read_csv(path)
+    print(f"    Releido: {len(baseline)} filas, {baseline.shape[1]} columnas")
+    assert "y" not in baseline.columns
+
+    print("\n" + "=" * 60)
+    print(" PRUEBA 1 SUPERADA")
+    print("=" * 60)
+
+
+if __name__ == "__main__":
+    main()
+'@ | Set-Content -Path (Join-Path $Root "scripts\run_prueba1.py") -Encoding UTF8
+
+# ---- 11. src/train.py (Fase 1) ----
+Write-Host "[11/12] src/train.py" -ForegroundColor Cyan
+@'
+"""Fase 1 - Entrenamiento con MLflow + Model Registry."""
+
+from __future__ import annotations
+import argparse
+import os
+import sys
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+import mlflow
+import mlflow.sklearn
+from mlflow import MlflowClient
+from sklearn.compose import ColumnTransformer
+from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import (accuracy_score, f1_score, precision_score,
+                             recall_score, roc_auc_score)
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+from src.utils import (CATEGORICAL_COLS, NUMERIC_COLS, RANDOM_STATE,
+                       binarize_target, load_dataset, save_baseline,
+                       split_train_test)
+
+TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "http://localhost:5000")
+EXPERIMENT_NAME = os.getenv("MLFLOW_EXPERIMENT_NAME", "bank-classification")
+MODEL_NAME = os.getenv("MLFLOW_MODEL_NAME", "bank_deposit_classifier")
+MODEL_ALIAS = os.getenv("MLFLOW_MODEL_ALIAS", "champion")
+
+
+def build_preprocessor():
+    numeric = Pipeline(steps=[("scaler", StandardScaler())])
+    categorical = Pipeline(steps=[("onehot", OneHotEncoder(handle_unknown="ignore"))])
+    return ColumnTransformer(
+        transformers=[("num", numeric, NUMERIC_COLS), ("cat", categorical, CATEGORICAL_COLS)],
+        remainder="drop",
+    )
+
+
+def evaluate(model, X_test, y_test):
+    y_pred = model.predict(X_test)
+    y_proba = model.predict_proba(X_test)[:, 1]
+    return {
+        "accuracy": float(accuracy_score(y_test, y_pred)),
+        "precision": float(precision_score(y_test, y_pred, zero_division=0)),
+        "recall": float(recall_score(y_test, y_pred, zero_division=0)),
+        "f1": float(f1_score(y_test, y_pred, zero_division=0)),
+        "roc_auc": float(roc_auc_score(y_test, y_proba)),
+    }
+
+
+def get_configs():
+    return [
+        {"name": "logreg_C1.0",
+         "estimator": LogisticRegression(C=1.0, max_iter=1000, random_state=RANDOM_STATE, n_jobs=-1),
+         "params": {"model_type": "logreg", "C": 1.0, "max_iter": 1000}},
+        {"name": "logreg_C0.1",
+         "estimator": LogisticRegression(C=0.1, max_iter=1000, random_state=RANDOM_STATE, n_jobs=-1),
+         "params": {"model_type": "logreg", "C": 0.1, "max_iter": 1000}},
+        {"name": "rf_100",
+         "estimator": RandomForestClassifier(n_estimators=100, random_state=RANDOM_STATE, n_jobs=-1),
+         "params": {"model_type": "random_forest", "n_estimators": 100}},
+        {"name": "rf_300_depth10",
+         "estimator": RandomForestClassifier(n_estimators=300, max_depth=10, random_state=RANDOM_STATE, n_jobs=-1),
+         "params": {"model_type": "random_forest", "n_estimators": 300, "max_depth": 10}},
+        {"name": "gb_150_lr0.05",
+         "estimator": GradientBoostingClassifier(n_estimators=150, learning_rate=0.05, random_state=RANDOM_STATE),
+         "params": {"model_type": "gradient_boosting", "n_estimators": 150, "learning_rate": 0.05}},
+    ]
+
+
+def register_model(run_id, model_name, description):
+    model_uri = f"runs:/{run_id}/model"
+    result = mlflow.register_model(model_uri=model_uri, name=model_name)
+    client = MlflowClient()
+    client.update_model_version(name=model_name, version=result.version, description=description)
+    return model_uri, int(result.version)
+
+
+def set_alias(model_name, version, alias):
+    client = MlflowClient()
+    client.set_registered_model_alias(name=model_name, alias=alias, version=str(version))
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--n-runs", type=int, default=5)
+    args = parser.parse_args()
+
+    print("=" * 70)
+    print(" FASE 1 - Entrenamiento con MLflow + Model Registry")
+    print("=" * 70)
+    print(f" Tracking URI   : {TRACKING_URI}")
+    print(f" Experiment     : {EXPERIMENT_NAME}")
+    print(f" Model Registry : {MODEL_NAME}")
+    print(f" Alias final    : {MODEL_ALIAS}")
+    print(f" Runs a ejecutar: {args.n_runs}")
+    print("=" * 70)
+
+    mlflow.set_tracking_uri(TRACKING_URI)
+    mlflow.set_experiment(EXPERIMENT_NAME)
+
+    print("\n[1] Cargando dataset...")
+    df = binarize_target(load_dataset())
+    X_train, X_test, y_train, y_test = split_train_test(df)
+    print(f"    Train: {len(X_train):,} | Test: {len(X_test):,}")
+
+    print("[2] Guardando baseline para drift (Fase 4)...")
+    baseline_path = save_baseline(X_train, n_rows=5000)
+    print(f"    OK -> {baseline_path}")
+
+    configs = get_configs()[: args.n_runs]
+    runs_summary = []
+
+    for i, cfg in enumerate(configs, start=1):
+        print(f"\n[3.{i}] Entrenando: {cfg['name']}")
+        preprocessor = build_preprocessor()
+        pipeline = Pipeline(steps=[("preprocessor", preprocessor), ("clf", cfg["estimator"])])
+
+        with mlflow.start_run(run_name=cfg["name"]) as run:
+            mlflow.log_params(cfg["params"])
+            mlflow.log_param("random_state", RANDOM_STATE)
+            pipeline.fit(X_train, y_train)
+            metrics = evaluate(pipeline, X_test, y_test)
+            mlflow.log_metrics(metrics)
+            mlflow.set_tag("phase", "fase1")
+            mlflow.set_tag("dataset", "bank-full")
+            mlflow.sklearn.log_model(sk_model=pipeline, artifact_path="model")
+            runs_summary.append({"name": cfg["name"], "run_id": run.info.run_id,
+                                 "f1": metrics["f1"], "roc_auc": metrics["roc_auc"]})
+            print(f"    f1={metrics['f1']:.4f} | roc_auc={metrics['roc_auc']:.4f} | run_id={run.info.run_id[:8]}...")
+
+    runs_summary.sort(key=lambda r: r["f1"], reverse=True)
+    best = runs_summary[0]
+    second = runs_summary[1] if len(runs_summary) > 1 else runs_summary[0]
+
+    print("\n[4] Ranking por F1:")
+    for pos, r in enumerate(runs_summary, start=1):
+        print(f"    {pos}. {r['name']:<20} f1={r['f1']:.4f} roc_auc={r['roc_auc']:.4f} run={r['run_id'][:8]}...")
+
+    print("\n[5] Registrando versiones en el Model Registry...")
+    _, v1 = register_model(second["run_id"], MODEL_NAME,
+                           f"v1 (baseline) - {second['name']} - f1={second['f1']:.4f}")
+    print(f"    Version {v1} <- run {second['run_id'][:8]} ({second['name']})")
+    _, v2 = register_model(best["run_id"], MODEL_NAME,
+                           f"v2 (best) - {best['name']} - f1={best['f1']:.4f}")
+    print(f"    Version {v2} <- run {best['run_id'][:8]} ({best['name']})")
+
+    print(f"\n[6] Marcando version {v2} con alias '{MODEL_ALIAS}'...")
+    set_alias(MODEL_NAME, v2, MODEL_ALIAS)
+    print(f"    OK: {MODEL_NAME}@{MODEL_ALIAS} -> version {v2}")
+
+    print("\n[7] Verificando carga por alias...")
+    uri = f"models:/{MODEL_NAME}@{MODEL_ALIAS}"
+    loaded = mlflow.sklearn.load_model(uri)
+    loaded_metrics = evaluate(loaded, X_test, y_test)
+    print(f"    Cargado OK desde {uri}")
+    print(f"    f1 del modelo cargado: {loaded_metrics['f1']:.4f}")
+
+    print("\n" + "=" * 70)
+    print(" FASE 1 COMPLETADA")
+    print("=" * 70)
+    print(f" Abre MLflow UI: {TRACKING_URI}")
+    print(f" - Experiment: {EXPERIMENT_NAME} ({len(runs_summary)} runs)")
+    print(f" - Registry  : {MODEL_NAME} (versiones {v1}, {v2})")
+    print(f" - Alias     : {MODEL_NAME}@{MODEL_ALIAS} = version {v2}")
+    print("=" * 70)
+
+
+if __name__ == "__main__":
+    main()
+'@ | Set-Content -Path (Join-Path $Root "src\train.py") -Encoding UTF8
+
+# ---- 12. src/inference/model_loader.py + scripts/check_registry.py ----
+Write-Host "[12/12] src/inference/model_loader.py + scripts/check_registry.py" -ForegroundColor Cyan
+@'
+"""Carga del modelo desde MLflow Model Registry por ALIAS."""
+
+from __future__ import annotations
+import os
+from functools import lru_cache
+import mlflow
+import mlflow.sklearn
+
+TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "http://localhost:5000")
+MODEL_NAME = os.getenv("MLFLOW_MODEL_NAME", "bank_deposit_classifier")
+MODEL_ALIAS = os.getenv("MLFLOW_MODEL_ALIAS", "champion")
+
+
+def _model_uri() -> str:
+    return f"models:/{MODEL_NAME}@{MODEL_ALIAS}"
+
+
+@lru_cache(maxsize=1)
+def load_model():
+    mlflow.set_tracking_uri(TRACKING_URI)
+    return mlflow.sklearn.load_model(_model_uri())
+
+
+def get_model_info() -> dict:
+    from mlflow import MlflowClient
+    mlflow.set_tracking_uri(TRACKING_URI)
+    client = MlflowClient()
+    try:
+        mv = client.get_model_version_by_alias(MODEL_NAME, MODEL_ALIAS)
+        return {"model_name": MODEL_NAME, "alias": MODEL_ALIAS,
+                "version": mv.version, "run_id": mv.run_id, "source": mv.source}
+    except Exception as exc:
+        return {"model_name": MODEL_NAME, "alias": MODEL_ALIAS, "error": str(exc)}
+'@ | Set-Content -Path (Join-Path $Root "src\inference\model_loader.py") -Encoding UTF8
+
+@'
+"""Diagnostico del Model Registry."""
+
+import os
+import sys
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+import mlflow
+from mlflow import MlflowClient
+
+TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "http://localhost:5000")
+MODEL_NAME = os.getenv("MLFLOW_MODEL_NAME", "bank_deposit_classifier")
+MODEL_ALIAS = os.getenv("MLFLOW_MODEL_ALIAS", "champion")
+
+
+def main():
+    mlflow.set_tracking_uri(TRACKING_URI)
+    client = MlflowClient()
+    print("=" * 70)
+    print(f" Registry: {MODEL_NAME}  (tracking: {TRACKING_URI})")
+    print("=" * 70)
+
+    versions = client.search_model_versions(f"name='{MODEL_NAME}'")
+    if not versions:
+        print("No hay versiones registradas. Ejecuta src/train.py primero.")
+        return
+
+    versions = sorted(versions, key=lambda v: int(v.version))
+    print(f"\nVersiones registradas: {len(versions)}\n")
+
+    for mv in versions:
+        alias_set = []
+        try:
+            full = client.get_model_version(name=MODEL_NAME, version=mv.version)
+            alias_set = list(getattr(full, "aliases", []) or [])
+        except Exception:
+            pass
+        marker = " <== " + MODEL_ALIAS if MODEL_ALIAS in alias_set else ""
+        print(f"  v{mv.version:<3} run={mv.run_id[:8]}...  status={mv.status}{marker}")
+        if mv.description:
+            print(f"         desc: {mv.description}")
+
+    print("\nAlias:")
+    try:
+        champion = client.get_model_version_by_alias(MODEL_NAME, MODEL_ALIAS)
+        print(f"  {MODEL_NAME}@{MODEL_ALIAS} -> version {champion.version} (run {champion.run_id[:8]}...)")
+        run = client.get_run(champion.run_id)
+        print("\nMetricas del run champion:")
+        for k, v in sorted(run.data.metrics.items()):
+            print(f"  {k:<10} = {v:.4f}")
+    except Exception as exc:
+        print(f"  [aviso] no se pudo leer alias: {exc}")
+
+    print("\n" + "=" * 70)
+
+
+if __name__ == "__main__":
+    main()
+'@ | Set-Content -Path (Join-Path $Root "scripts\check_registry.py") -Encoding UTF8
+
+# ---- Verificacion final ----
+Write-Host "`n============================================" -ForegroundColor Green
+Write-Host " ESTRUCTURA CREADA" -ForegroundColor Green
+Write-Host "============================================" -ForegroundColor Green
+
+Write-Host "`nArbol del proyecto (excluyendo .git y .pytest_cache):" -ForegroundColor Yellow
+Get-ChildItem -Recurse -Force |
+    Where-Object { $_.FullName -notmatch '\\\.git\\' -and $_.FullName -notmatch '\\\.pytest_cache' -and $_.FullName -notmatch '\\__pycache__' } |
+    ForEach-Object {
+        $rel = $_.FullName.Substring($Root.Length + 1)
+        if ($_.PSIsContainer) { Write-Host "  [DIR]  $rel" -ForegroundColor DarkCyan }
+        else                  { Write-Host "  [FILE] $rel" }
+    }
+
+Write-Host "`nVerificacion del CSV:" -ForegroundColor Yellow
+if (Test-Path "data\raw\bank-full.csv") {
+    $csv = Get-Item "data\raw\bank-full.csv"
+    Write-Host ("  OK: " + $csv.FullName + " -> " + [math]::Round($csv.Length/1MB,2) + " MB") -ForegroundColor Green
+} else {
+    Write-Host "  FALTA: data\raw\bank-full.csv" -ForegroundColor Red
+    Write-Host "  Copia bank-full.csv a esa ruta antes de continuar." -ForegroundColor Yellow
+}
+
+Write-Host "`nSiguientes pasos:" -ForegroundColor Magenta
+Write-Host "  1) python -m pytest tests -q      (debe dar 4 passed, 1 skipped)"
+Write-Host "  2) python scripts\run_prueba1.py  (debe decir PRUEBA 1 SUPERADA)"
+Write-Host "  3) python -m pytest tests -q      (debe dar 5 passed)"
+Write-Host "" 
+================================= 
+pytest.ini 
+================================= 
+ 
+﻿[pytest]
+testpaths = tests
+python_files = test_*.py
+python_classes = Test*
+python_functions = test_*
+addopts = -v --tb=short
+ 
+================================= 
+README.md 
+================================= 
+ 
+﻿# Bank Deposit Classifier - Proyecto MLOps
+
+Proyecto end-to-end: MLflow + Docker + Kubernetes + Drift.
+
+## Dataset
+- Fuente: data/raw/bank-full.csv (UCI Bank Marketing).
+- Problema: clasificacion binaria (y: yes/no).
+- Registros: ~45211.
+
+## Fases
+- [ ] Fase 1 - Modelo + MLflow
+- [ ] Fase 2 - Docker
+- [ ] Fase 3 - Kubernetes
+- [ ] Fase 4 - Drift
+- [ ] Fase 5 (extra) - UI
+
+## Reparto de trabajo
+| Integrante | Componentes |
+|------------|-------------|
+| Nombre 1   | Fase 1      |
+| Nombre 2   | Fases 2-3   |
+| Nombre 3   | Fase 4      |
+ 
+================================= 
+requirements.txt 
+================================= 
+ 
+# Core
+pandas==2.2.2
+numpy==1.26.4
+scikit-learn==1.5.1
+joblib==1.4.2
+
+# MLflow
+mlflow==2.16.2
+
+# Servicio de inferencia
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+pydantic==2.9.2
+
+# Drift
+scipy==1.14.1
+evidently==0.4.30
+
+# Tests
+pytest==8.3.3
+requests==2.32.3
+
+# Utilidades
+python-dotenv==1.0.1 
+================================= 
+.pytest_cache\.gitignore 
+================================= 
+ 
+# Created by pytest automatically.
+*
+ 
+================================= 
+.pytest_cache\CACHEDIR.TAG 
+================================= 
+ 
+Signature: 8a477f597d28d172789f06886806bc55
+# This file is a cache directory tag created by pytest.
+# For information about cache directory tags, see:
+#	https://bford.info/cachedir/spec.html
+ 
+================================= 
+.pytest_cache\README.md 
+================================= 
+ 
+# pytest cache directory #
+
+This directory contains data from the pytest's cache plugin,
+which provides the `--lf` and `--ff` options, as well as the `cache` fixture.
+
+**Do not** commit this to version control.
+
+See [the docs](https://docs.pytest.org/en/stable/how-to/cache.html) for more information.
+ 
+================================= 
+.pytest_cache\v\cache\nodeids 
+================================= 
+ 
+[
+  "tests/test_smoke.py::test_baseline_saves_and_reloads",
+  "tests/test_smoke.py::test_dataset_loads_and_has_expected_columns",
+  "tests/test_smoke.py::test_scripts_have_expected_real_baseline",
+  "tests/test_smoke.py::test_split_is_reproducible_and_stratified",
+  "tests/test_smoke.py::test_target_binarization_and_imbalance"
+] 
+================================= 
+.pytest_cache\v\cache\stepwise 
+================================= 
+ 
+[] 
+================================= 
+data\raw\bank-names.txt 
+================================= 
+ 
+Citation Request:
+  This dataset is public available for research. The details are described in [Moro et al., 2011]. 
+  Please include this citation if you plan to use this database:
+
+  [Moro et al., 2011] S. Moro, R. Laureano and P. Cortez. Using Data Mining for Bank Direct Marketing: An Application of the CRISP-DM Methodology. 
+  In P. Novais et al. (Eds.), Proceedings of the European Simulation and Modelling Conference - ESM'2011, pp. 117-121, Guimarães, Portugal, October, 2011. EUROSIS.
+
+  Available at: [pdf] http://hdl.handle.net/1822/14838
+                [bib] http://www3.dsi.uminho.pt/pcortez/bib/2011-esm-1.txt
+
+1. Title: Bank Marketing
+
+2. Sources
+   Created by: Paulo Cortez (Univ. Minho) and Sérgio Moro (ISCTE-IUL) @ 2012
+   
+3. Past Usage:
+
+  The full dataset was described and analyzed in:
+
+  S. Moro, R. Laureano and P. Cortez. Using Data Mining for Bank Direct Marketing: An Application of the CRISP-DM Methodology. 
+  In P. Novais et al. (Eds.), Proceedings of the European Simulation and Modelling Conference - ESM'2011, pp. 117-121, Guimarães, 
+  Portugal, October, 2011. EUROSIS.
+
+4. Relevant Information:
+
+   The data is related with direct marketing campaigns of a Portuguese banking institution. 
+   The marketing campaigns were based on phone calls. Often, more than one contact to the same client was required, 
+   in order to access if the product (bank term deposit) would be (or not) subscribed. 
+
+   There are two datasets: 
+      1) bank-full.csv with all examples, ordered by date (from May 2008 to November 2010).
+      2) bank.csv with 10% of the examples (4521), randomly selected from bank-full.csv.
+   The smallest dataset is provided to test more computationally demanding machine learning algorithms (e.g. SVM).
+
+   The classification goal is to predict if the client will subscribe a term deposit (variable y).
+
+5. Number of Instances: 45211 for bank-full.csv (4521 for bank.csv)
+
+6. Number of Attributes: 16 + output attribute.
+
+7. Attribute information:
+
+   For more information, read [Moro et al., 2011].
+
+   Input variables:
+   # bank client data:
+   1 - age (numeric)
+   2 - job : type of job (categorical: "admin.","unknown","unemployed","management","housemaid","entrepreneur","student",
+                                       "blue-collar","self-employed","retired","technician","services") 
+   3 - marital : marital status (categorical: "married","divorced","single"; note: "divorced" means divorced or widowed)
+   4 - education (categorical: "unknown","secondary","primary","tertiary")
+   5 - default: has credit in default? (binary: "yes","no")
+   6 - balance: average yearly balance, in euros (numeric) 
+   7 - housing: has housing loan? (binary: "yes","no")
+   8 - loan: has personal loan? (binary: "yes","no")
+   # related with the last contact of the current campaign:
+   9 - contact: contact communication type (categorical: "unknown","telephone","cellular") 
+  10 - day: last contact day of the month (numeric)
+  11 - month: last contact month of year (categorical: "jan", "feb", "mar", ..., "nov", "dec")
+  12 - duration: last contact duration, in seconds (numeric)
+   # other attributes:
+  13 - campaign: number of contacts performed during this campaign and for this client (numeric, includes last contact)
+  14 - pdays: number of days that passed by after the client was last contacted from a previous campaign (numeric, -1 means client was not previously contacted)
+  15 - previous: number of contacts performed before this campaign and for this client (numeric)
+  16 - poutcome: outcome of the previous marketing campaign (categorical: "unknown","other","failure","success")
+
+  Output variable (desired target):
+  17 - y - has the client subscribed a term deposit? (binary: "yes","no")
+
+8. Missing Attribute Values: None
+ 
+================================= 
+docker\.dockerignore 
+================================= 
+ 
+# Ignorar en el build
+.git
+.gitignore
+.venv
+venv
+env
+__pycache__
+*.pyc
+*.pyo
+.pytest_cache
+mlruns
+mlruns/
+mlflow.db
+mlartifacts
+mlartifacts/
+docs/evidencias
+image.png
+*.log
+.env
+.vscode
+.idea
+data/raw
+data/baseline 
+================================= 
+docker\Dockerfile 
+================================= 
+ 
+# Imagen base reproducible
+FROM python:3.11-slim
+
+# Variables de entorno para Python
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+WORKDIR /app
+
+# Dependencias del sistema minimas
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Instalar dependencias Python (fijadas)
+COPY requirements.txt /app/requirements.txt
+RUN pip install --only-binary=:all: -r requirements.txt
+
+# Copiar codigo
+COPY src /app/src
+COPY conftest.py /app/conftest.py
+
+# Variables por defecto (se sobreescriben en runtime)
+ENV MLFLOW_TRACKING_URI=http://host.docker.internal:5000 \
+    MLFLOW_MODEL_NAME=bank_deposit_classifier \
+    MLFLOW_MODEL_ALIAS=champion \
+    PORT=8000
+
+EXPOSE 8000
+
+# Healthcheck del contenedor
+HEALTHCHECK --interval=15s --timeout=5s --start-period=20s --retries=3 \
+    CMD curl -fsS http://localhost:8000/health || exit 1
+
+# Arrancar el servicio
+CMD ["uvicorn", "src.inference.app:app", "--host", "0.0.0.0", "--port", "8000"] 
+================================= 
+docs\architecture.md 
+================================= 
+ 
+# Documento de arquitectura
+
+## 1. Problema y dataset
+- Dataset: `bank-full.csv` (UCI Bank Marketing), 45.211 registros, 16 features + target.
+- Target: `y` (yes/no) -> 1/0. Desbalance ~88/12.
+- Métrica principal: **F1-score**. Secundaria: ROC-AUC.
+
+## 2. Flujo de arquitectura
+## 4. Modelo desplegado
+| Campo | Valor |
+|-------|-------|
+| Model Registry | `bank_deposit_classifier` |
+| Alias desplegado | `champion` |
+| Versión desplegada | **v2** |
+| Run ID asociado | `3b5087a3...` (cópialo entero de la UI o de `check_registry.py`) |
+| Configuración elegida | `rf_100` (RandomForest n_estimators=100) |
+| F1 (test) | **0.4924** |
+| ROC-AUC (test) | _revisar en check_registry.py_ |
+
+### Justificación de la elección
+- `rf_100` obtuvo el mayor F1 en test entre los 5 runs (comparación en UI MLflow).
+- Se descartaron los modelos lineales por F1 claramente inferior.
+- `gb_150_lr0.05` quedó muy cerca y se registró como v1 (baseline).
+- El servicio de inferencia consume `models:/bank_deposit_classifier@champion`, no una ruta de archivo. 
+================================= 
+k8s\deployment.yaml 
+================================= 
+ 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bank-inference
+  namespace: bank-mlops
+  labels:
+    app: bank-inference
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: bank-inference
+  template:
+    metadata:
+      labels:
+        app: bank-inference
+    spec:
+      containers:
+        - name: bank-inference
+          image: bank-inference:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          env:
+            - name: MLFLOW_TRACKING_URI
+              value: "http://host.docker.internal:5000"
+            - name: MLFLOW_MODEL_NAME
+              value: "bank_deposit_classifier"
+            - name: MLFLOW_MODEL_ALIAS
+              value: "champion"
+            # HOSTNAME se inyecta automaticamente por Kubernetes con el nombre del pod
+          volumeMounts:
+            - name: mlartifacts
+              mountPath: "/D:/SOE/ml/data/bank+marketing/bank/bank-mlops/mlartifacts"
+              readOnly: true
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      volumes:
+        - name: mlartifacts
+          hostPath:
+            path: "/D:/SOE/ml/data/bank+marketing/bank/bank-mlops/mlartifacts"
+            type: Directory 
+================================= 
+k8s\namespace.yaml 
+================================= 
+ 
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: bank-mlops
+  labels:
+    app.kubernetes.io/part-of: bank-mlops 
+================================= 
+k8s\service.yaml 
+================================= 
+ 
+apiVersion: v1
+kind: Service
+metadata:
+  name: bank-inference
+  namespace: bank-mlops
+  labels:
+    app: bank-inference
+spec:
+  type: NodePort
+  selector:
+    app: bank-inference
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+      nodePort: 30080 
+================================= 
+mlruns\0\meta.yaml 
+================================= 
+ 
+artifact_location: file:///D:/SOE/ml/data/bank+marketing/bank/bank-mlops/mlartifacts/0
+creation_time: 1793830637137
+experiment_id: '0'
+last_update_time: 1793830637137
+lifecycle_stage: active
+name: Default
+ 
+================================= 
+scripts\build_docker.ps1 
+================================= 
+ 
+# Construye la imagen Docker del servicio de inferencia.
+# Uso (desde bank-mlops/):
+#   .\scripts\build_docker.ps1
+
+param(
+    [string]$Tag = "bank-inference:v1"
+)
+
+$ErrorActionPreference = "Stop"
+
+Write-Host "==> Verificando Docker..." -ForegroundColor Cyan
+docker --version
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "ERROR: Docker no esta disponible. Abre Docker Desktop." -ForegroundColor Red
+    exit 1
+}
+
+Write-Host "==> Construyendo imagen $Tag desde docker/Dockerfile ..." -ForegroundColor Cyan
+docker build -f docker/Dockerfile -t $Tag .
+
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "ERROR: build fallo." -ForegroundColor Red
+    exit 1
+}
+
+Write-Host "==> Imagen construida:" -ForegroundColor Green
+docker images $Tag 
+================================= 
+scripts\check_registry.py 
+================================= 
+ 
+﻿"""Diagnostico del Model Registry."""
+
+import os
+import sys
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+import mlflow
+from mlflow import MlflowClient
+
+TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "http://localhost:5000")
+MODEL_NAME = os.getenv("MLFLOW_MODEL_NAME", "bank_deposit_classifier")
+MODEL_ALIAS = os.getenv("MLFLOW_MODEL_ALIAS", "champion")
+
+
+def main():
+    mlflow.set_tracking_uri(TRACKING_URI)
+    client = MlflowClient()
+    print("=" * 70)
+    print(f" Registry: {MODEL_NAME}  (tracking: {TRACKING_URI})")
+    print("=" * 70)
+
+    versions = client.search_model_versions(f"name='{MODEL_NAME}'")
+    if not versions:
+        print("No hay versiones registradas. Ejecuta src/train.py primero.")
+        return
+
+    versions = sorted(versions, key=lambda v: int(v.version))
+    print(f"\nVersiones registradas: {len(versions)}\n")
+
+    for mv in versions:
+        alias_set = []
+        try:
+            full = client.get_model_version(name=MODEL_NAME, version=mv.version)
+            alias_set = list(getattr(full, "aliases", []) or [])
+        except Exception:
+            pass
+        marker = " <== " + MODEL_ALIAS if MODEL_ALIAS in alias_set else ""
+        print(f"  v{mv.version:<3} run={mv.run_id[:8]}...  status={mv.status}{marker}")
+        if mv.description:
+            print(f"         desc: {mv.description}")
+
+    print("\nAlias:")
+    try:
+        champion = client.get_model_version_by_alias(MODEL_NAME, MODEL_ALIAS)
+        print(f"  {MODEL_NAME}@{MODEL_ALIAS} -> version {champion.version} (run {champion.run_id[:8]}...)")
+        run = client.get_run(champion.run_id)
+        print("\nMetricas del run champion:")
+        for k, v in sorted(run.data.metrics.items()):
+            print(f"  {k:<10} = {v:.4f}")
+    except Exception as exc:
+        print(f"  [aviso] no se pudo leer alias: {exc}")
+
+    print("\n" + "=" * 70)
+
+
+if __name__ == "__main__":
+    main()
+ 
+================================= 
+scripts\deploy_k8s.ps1 
+================================= 
+ 
+# Despliega la infraestructura en Kubernetes.
+# Uso (desde bank-mlops/):
+#   .\scripts\deploy_k8s.ps1
+
+$ErrorActionPreference = "Stop"
+
+Write-Host "==> Aplicando Namespace..." -ForegroundColor Cyan
+kubectl apply -f k8s/namespace.yaml
+
+Write-Host "==> Aplicando Deployment (3 replicas)..." -ForegroundColor Cyan
+kubectl apply -f k8s/deployment.yaml
+
+Write-Host "==> Aplicando Service (NodePort 30080)..." -ForegroundColor Cyan
+kubectl apply -f k8s/service.yaml
+
+Write-Host "==> Esperando a que los pods esten listos..." -ForegroundColor Cyan
+kubectl wait --for=condition=available --timeout=120s deployment/bank-inference -n bank-mlops
+
+Write-Host "==> Estado de los pods:" -ForegroundColor Green
+kubectl get pods -n bank-mlops -o wide
+
+Write-Host "==> Estado del Service:" -ForegroundColor Green
+kubectl get svc -n bank-mlops
+
+Write-Host "==> El servicio esta disponible en http://localhost:30080" -ForegroundColor Magenta 
+================================= 
+scripts\run_docker.ps1 
+================================= 
+ 
+# Ejecuta el contenedor del servicio de inferencia usando --mount (evita el error de "too many colons" en Windows).
+# Uso (desde bank-mlops/):
+#   .\scripts\run_docker.ps1
+
+param(
+    [string]$Tag = "bank-inference:v1",
+    [int]$HostPort = 8000,
+    [string]$MlflowUri = "http://host.docker.internal:5000"
+)
+
+$ErrorActionPreference = "Stop"
+
+# Ruta absoluta del proyecto y de los artefactos en el host
+$ProjectRoot = (Get-Location).Path
+$ArtifactsHost = Join-Path $ProjectRoot "mlartifacts"
+
+if (-not (Test-Path $ArtifactsHost)) {
+    Write-Host "ERROR: no existe la carpeta de artefactos: $ArtifactsHost" -ForegroundColor Red
+    exit 1
+}
+
+# Convertir la ruta Windows (D:\...) al formato que Docker entiende (/D:/...)
+$HostPathForDocker = "/" + ($ArtifactsHost -replace '\\', '/' -replace '^([A-Za-z]):', '$1:')
+
+# La ruta dentro del contenedor debe ser la misma que la registrada en MLflow
+$ContainerPath = $HostPathForDocker
+
+Write-Host "==> Parando contenedor previo (si existe)..." -ForegroundColor Cyan
+docker rm -f bank-inference 2>$null | Out-Null
+
+Write-Host "==> Montando artefactos con --mount:" -ForegroundColor Cyan
+Write-Host "    source : $HostPathForDocker"
+Write-Host "    target : $ContainerPath"
+
+Write-Host "==> Lanzando $Tag en el puerto $HostPort ..." -ForegroundColor Cyan
+docker run -d --name bank-inference `
+    -p "${HostPort}:8000" `
+    --mount "type=bind,source=$HostPathForDocker,target=$ContainerPath" `
+    -e "MLFLOW_TRACKING_URI=$MlflowUri" `
+    -e "MLFLOW_MODEL_NAME=bank_deposit_classifier" `
+    -e "MLFLOW_MODEL_ALIAS=champion" `
+    $Tag
+
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "ERROR: docker run fallo." -ForegroundColor Red
+    exit 1
+}
+
+Write-Host "==> Esperando a que el servicio este listo..." -ForegroundColor Cyan
+$ok = $false
+for ($i = 0; $i -lt 30; $i++) {
+    Start-Sleep -Seconds 2
+    try {
+        $r = Invoke-WebRequest -Uri "http://localhost:${HostPort}/health" -UseBasicParsing -TimeoutSec 3
+        if ($r.StatusCode -eq 200) { $ok = $true; break }
+    } catch { }
+}
+
+if (-not $ok) {
+    Write-Host "ERROR: el servicio no respondio a tiempo. Revisa logs:" -ForegroundColor Red
+    docker logs bank-inference --tail 50
+    exit 1
+}
+
+Write-Host "==> Servicio arriba en http://localhost:${HostPort}" -ForegroundColor Green
+docker ps --filter "name=bank-inference" 
+================================= 
+scripts\run_fase1.ps1 
+================================= 
+ 
+# Orquesta la Fase 1: verifica MLflow, entrena y registra.
+# Uso (desde bank-mlops/):
+#   .\scripts\run_fase1.ps1
+
+$ErrorActionPreference = "Stop"
+
+Write-Host "==> Activando entorno virtual..." -ForegroundColor Cyan
+if (-not (Test-Path ".\.venv\Scripts\Activate.ps1")) {
+    Write-Host "ERROR: no existe .venv. Crea el entorno primero." -ForegroundColor Red
+    exit 1
+}
+. .\.venv\Scripts\Activate.ps1
+
+Write-Host "==> Comprobando servidor MLflow en http://localhost:5000 ..." -ForegroundColor Cyan
+try {
+    $resp = Invoke-WebRequest -Uri "http://localhost:5000/health" -UseBasicParsing -TimeoutSec 5
+    if ($resp.StatusCode -ne 200) { throw "Health no OK" }
+    Write-Host "    Servidor MLflow OK" -ForegroundColor Green
+} catch {
+    Write-Host "ERROR: MLflow no responde. Abre otra terminal y ejecuta:" -ForegroundColor Red
+    Write-Host "   .\scripts\run_mlflow_server.ps1" -ForegroundColor Yellow
+    exit 1
+}
+
+Write-Host "==> Ejecutando entrenamiento (5 runs + Registry + alias)..." -ForegroundColor Cyan
+python src\train.py --n-runs 5 
+================================= 
+scripts\run_mlflow_server.ps1 
+================================= 
+ 
+# Ejecuta el servidor MLflow local (SQLite + artifacts en ./mlartifacts)
+# Uso (desde bank-mlops/):
+#   .\scripts\run_mlflow_server.ps1
+
+$ErrorActionPreference = "Stop"
+
+Write-Host "==========================================================" -ForegroundColor Cyan
+Write-Host " MLflow Tracking Server" -ForegroundColor Cyan
+Write-Host "==========================================================" -ForegroundColor Cyan
+Write-Host " Backend : sqlite:///mlflow.db"
+Write-Host " Artifacts: ./mlartifacts"
+Write-Host " URL     : http://localhost:5000"
+Write-Host " (Ctrl+C para detener)"
+Write-Host "==========================================================" -ForegroundColor Cyan
+
+mlflow server `
+  --host 0.0.0.0 `
+  --port 5000 `
+  --backend-store-uri "sqlite:///mlflow.db" `
+  --default-artifact-root "./mlartifacts" 
+================================= 
+scripts\run_prueba1.py 
+================================= 
+ 
+﻿"""Ejecuta la Prueba 1 y genera el baseline real."""
+
+import sys
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
+
+import pandas as pd
+from src.utils import (
+    BASELINE_FILE, DATA_RAW, binarize_target, load_dataset,
+    save_baseline, split_train_test,
+)
+
+
+def main():
+    print("=" * 60)
+    print(" PRUEBA 1 - Smoke test del dataset y pipeline base")
+    print("=" * 60)
+
+    print(f"\n[1] Cargando dataset desde: {DATA_RAW}")
+    df = load_dataset()
+    print(f"    Filas: {len(df):,} | Columnas: {df.shape[1]}")
+
+    print("\n[2] Binarizando target 'y'")
+    df = binarize_target(df)
+    counts = df["y"].value_counts().sort_index()
+    for label, count in counts.items():
+        name = "yes" if label == 1 else "no"
+        print(f"      {label} ({name}): {count:,} ({100*count/len(df):.2f}%)")
+    assert 0.05 < df["y"].mean() < 0.25
+
+    print("\n[3] Split train/test (80/20 estratificado, random_state=42)")
+    X_train, X_test, y_train, y_test = split_train_test(df)
+    print(f"    Train: {len(X_train):,} | Test: {len(X_test):,}")
+    assert abs(y_train.mean() - y_test.mean()) < 0.01
+
+    print(f"\n[4] Generando baseline en: {BASELINE_FILE}")
+    path = save_baseline(X_train, n_rows=5000)
+    print(f"    Guardado en: {path}")
+    print(f"    Tamano: {path.stat().st_size / 1024:.1f} KB")
+
+    baseline = pd.read_csv(path)
+    print(f"    Releido: {len(baseline)} filas, {baseline.shape[1]} columnas")
+    assert "y" not in baseline.columns
+
+    print("\n" + "=" * 60)
+    print(" PRUEBA 1 SUPERADA")
+    print("=" * 60)
+
+
+if __name__ == "__main__":
+    main()
+ 
+================================= 
+scripts\teardown_k8s.ps1 
+================================= 
+ 
+# Elimina todos los recursos de la Fase 3 del cluster.
+# Uso (desde bank-mlops/):
+#   .\scripts\teardown_k8s.ps1
+
+$ErrorActionPreference = "Continue"
+$Namespace = "bank-mlops"
+
+Write-Host "==> Borrando Deployment y Service..." -ForegroundColor Cyan
+kubectl delete -f k8s/deployment.yaml --ignore-not-found
+kubectl delete -f k8s/service.yaml --ignore-not-found
+
+Write-Host "==> Borrando Namespace..." -ForegroundColor Cyan
+kubectl delete -f k8s/namespace.yaml --ignore-not-found
+
+Write-Host "==> Verificando limpieza..." -ForegroundColor Green
+kubectl get all -n $Namespace 2>$null
+Write-Host "Listo." -ForegroundColor Green 
+================================= 
+scripts\test_api.ps1 
+================================= 
+ 
+# Prueba end-to-end del servicio de inferencia en Docker.
+# Uso (desde bank-mlops/):
+#   .\scripts\test_api.ps1
+
+param(
+    [string]$BaseUrl = "http://localhost:8000"
+)
+
+$ErrorActionPreference = "Stop"
+
+Write-Host "==========================================================" -ForegroundColor Cyan
+Write-Host " Test API - $BaseUrl" -ForegroundColor Cyan
+Write-Host "==========================================================" -ForegroundColor Cyan
+
+# 1. /health
+Write-Host "`n[1] GET /health" -ForegroundColor Yellow
+$health = Invoke-RestMethod -Uri "$BaseUrl/health" -Method Get
+$health | ConvertTo-Json -Depth 3
+
+# 2. /info
+Write-Host "`n[2] GET /info" -ForegroundColor Yellow
+$info = Invoke-RestMethod -Uri "$BaseUrl/info" -Method Get
+$info | ConvertTo-Json -Depth 3
+
+# 3. /predict - caso 1 (perfil con probable 'no')
+Write-Host "`n[3] POST /predict  (caso 1)" -ForegroundColor Yellow
+$body1 = @{
+    age = 35; job = "management"; marital = "married"; education = "tertiary"
+    default = "no"; balance = 1500; housing = "yes"; loan = "no"
+    contact = "cellular"; day = 15; month = "may"; duration = 200
+    campaign = 1; pdays = -1; previous = 0; poutcome = "unknown"
+} | ConvertTo-Json
+$r1 = Invoke-RestMethod -Uri "$BaseUrl/predict" -Method Post -Body $body1 -ContentType "application/json"
+$r1 | ConvertTo-Json -Depth 3
+
+# 4. /predict - caso 2 (cliente joven estudiante, suele ser 'yes')
+Write-Host "`n[4] POST /predict  (caso 2)" -ForegroundColor Yellow
+$body2 = @{
+    age = 22; job = "student"; marital = "single"; education = "secondary"
+    default = "no"; balance = 500; housing = "no"; loan = "no"
+    contact = "cellular"; day = 20; month = "apr"; duration = 450
+    campaign = 1; pdays = -1; previous = 0; poutcome = "unknown"
+} | ConvertTo-Json
+$r2 = Invoke-RestMethod -Uri "$BaseUrl/predict" -Method Post -Body $body2 -ContentType "application/json"
+$r2 | ConvertTo-Json -Depth 3
+
+Write-Host "`n==========================================================" -ForegroundColor Green
+Write-Host " API OK - el contenedor respondio correctamente" -ForegroundColor Green
+Write-Host "==========================================================" -ForegroundColor Green 
+================================= 
+scripts\test_k8s.ps1 
+================================= 
+ 
+# Demuestra las 4 pruebas exigidas en la Fase 3.
+# Uso (desde bank-mlops/):
+#   .\scripts\test_k8s.ps1
+
+param(
+    [string]$BaseUrl = "http://localhost:30080",
+    [string]$Namespace = "bank-mlops"
+)
+
+$ErrorActionPreference = "Stop"
+
+function Get-PredictBody {
+    return @{
+        age = 35; job = "management"; marital = "married"; education = "tertiary"
+        default = "no"; balance = 1500; housing = "yes"; loan = "no"
+        contact = "cellular"; day = 15; month = "may"; duration = 200
+        campaign = 1; pdays = -1; previous = 0; poutcome = "unknown"
+    } | ConvertTo-Json
+}
+
+Write-Host "==========================================================" -ForegroundColor Cyan
+Write-Host " FASE 3 - Pruebas de Kubernetes" -ForegroundColor Cyan
+Write-Host "==========================================================" -ForegroundColor Cyan
+
+# ---------------------------------------------------------------
+# DEMO 1: 3 replicas Running
+# ---------------------------------------------------------------
+Write-Host "`n[DEMO 1] Verificando 3 replicas en estado Running..." -ForegroundColor Yellow
+$pods = kubectl get pods -n $Namespace -l app=bank-inference -o json | ConvertFrom-Json
+$running = ($pods.items | Where-Object { $_.status.phase -eq "Running" }).Count
+kubectl get pods -n $Namespace -l app=bank-inference
+if ($running -ge 3) {
+    Write-Host "  OK: $running replicas Running" -ForegroundColor Green
+} else {
+    Write-Host "  ERROR: solo $running replicas Running (se esperaban 3)" -ForegroundColor Red
+}
+
+# ---------------------------------------------------------------
+# DEMO 2: Balanceo entre pods
+# ---------------------------------------------------------------
+Write-Host "`n[DEMO 2] Balanceo de carga (10 peticiones al Service)..." -ForegroundColor Yellow
+$body = Get-PredictBody
+$podsSeen = @{}
+for ($i = 1; $i -le 10; $i++) {
+    try {
+        $r = Invoke-RestMethod -Uri "$BaseUrl/predict" -Method Post -Body $body -ContentType "application/json" -TimeoutSec 5
+        $pod = $r.pod
+        if ($podsSeen.ContainsKey($pod)) { $podsSeen[$pod]++ } else { $podsSeen[$pod] = 1 }
+        Write-Host ("  Peticion {0,2}: atendida por {1}" -f $i, $pod)
+    } catch {
+        Write-Host "  Peticion $i falló: $_" -ForegroundColor Red
+    }
+}
+Write-Host "`n  Resumen de pods que atendieron:" -ForegroundColor Cyan
+$podsSeen.GetEnumerator() | ForEach-Object { Write-Host ("    {0} -> {1} peticiones" -f $_.Key, $_.Value) }
+if ($podsSeen.Count -ge 2) {
+    Write-Host "  OK: el trafico se distribuyo entre $($podsSeen.Count) pods distintos" -ForegroundColor Green
+} else {
+    Write-Host "  ADVERTENCIA: solo un pod atendio. Revisa el Service." -ForegroundColor DarkYellow
+}
+
+# ---------------------------------------------------------------
+# DEMO 3: Autorreparacion
+# ---------------------------------------------------------------
+Write-Host "`n[DEMO 3] Autorreparacion (borrando un pod)..." -ForegroundColor Yellow
+$podToDelete = (kubectl get pods -n $Namespace -l app=bank-inference -o jsonpath="{.items[0].metadata.name}")
+Write-Host "  Borrando pod: $podToDelete"
+kubectl delete pod $podToDelete -n $Namespace --wait=false
+
+Write-Host "  Esperando a que Kubernetes lo recree..." -ForegroundColor Cyan
+Start-Sleep -Seconds 8
+
+Write-Host "  Estado actual de pods:" -ForegroundColor Cyan
+kubectl get pods -n $Namespace -l app=bank-inference
+
+Write-Host "  Verificando que el servicio sigue respondiendo..." -ForegroundColor Cyan
+Start-Sleep -Seconds 5
+try {
+    $r = Invoke-RestMethod -Uri "$BaseUrl/predict" -Method Post -Body $body -ContentType "application/json" -TimeoutSec 5
+    Write-Host "  OK: el servicio responde tras eliminar el pod (atendio $($r.pod))" -ForegroundColor Green
+} catch {
+    Write-Host "  ERROR: el servicio no responde tras eliminar el pod: $_" -ForegroundColor Red
+}
+
+# ---------------------------------------------------------------
+# DEMO 4: Escalado
+# ---------------------------------------------------------------
+Write-Host "`n[DEMO 4] Escalado (3 -> 5 replicas)..." -ForegroundColor Yellow
+Write-Host "  Escalando a 5 replicas..."
+kubectl scale deployment bank-inference -n $Namespace --replicas=5
+
+Write-Host "  Esperando a que los nuevos pods esten listos..." -ForegroundColor Cyan
+Start-Sleep -Seconds 10
+kubectl get pods -n $Namespace -l app=bank-inference
+
+$podsAfter = kubectl get pods -n $Namespace -l app=bank-inference -o json | ConvertFrom-Json
+$runningAfter = ($podsAfter.items | Where-Object { $_.status.phase -eq "Running" }).Count
+if ($runningAfter -ge 5) {
+    Write-Host "  OK: $runningAfter replicas Running tras el escalado" -ForegroundColor Green
+} else {
+    Write-Host "  ADVERTENCIA: solo $runningAfter replicas Running" -ForegroundColor DarkYellow
+}
+
+Write-Host "`n==========================================================" -ForegroundColor Green
+Write-Host " FASE 3 - TODAS LAS DEMOS COMPLETADAS" -ForegroundColor Green
+Write-Host "==========================================================" -ForegroundColor Green 
+================================= 
+src\train.py 
+================================= 
+ 
+﻿"""Fase 1 - Entrenamiento con MLflow + Model Registry."""
+
+from __future__ import annotations
+import argparse
+import os
+import sys
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+import mlflow
+import mlflow.sklearn
+from mlflow import MlflowClient
+from sklearn.compose import ColumnTransformer
+from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import (accuracy_score, f1_score, precision_score,
+                             recall_score, roc_auc_score)
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+
+from src.utils import (CATEGORICAL_COLS, NUMERIC_COLS, RANDOM_STATE,
+                       binarize_target, load_dataset, save_baseline,
+                       split_train_test)
+
+TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "http://localhost:5000")
+EXPERIMENT_NAME = os.getenv("MLFLOW_EXPERIMENT_NAME", "bank-classification")
+MODEL_NAME = os.getenv("MLFLOW_MODEL_NAME", "bank_deposit_classifier")
+MODEL_ALIAS = os.getenv("MLFLOW_MODEL_ALIAS", "champion")
+
+
+def build_preprocessor():
+    numeric = Pipeline(steps=[("scaler", StandardScaler())])
+    categorical = Pipeline(steps=[("onehot", OneHotEncoder(handle_unknown="ignore"))])
+    return ColumnTransformer(
+        transformers=[("num", numeric, NUMERIC_COLS), ("cat", categorical, CATEGORICAL_COLS)],
+        remainder="drop",
+    )
+
+
+def evaluate(model, X_test, y_test):
+    y_pred = model.predict(X_test)
+    y_proba = model.predict_proba(X_test)[:, 1]
+    return {
+        "accuracy": float(accuracy_score(y_test, y_pred)),
+        "precision": float(precision_score(y_test, y_pred, zero_division=0)),
+        "recall": float(recall_score(y_test, y_pred, zero_division=0)),
+        "f1": float(f1_score(y_test, y_pred, zero_division=0)),
+        "roc_auc": float(roc_auc_score(y_test, y_proba)),
+    }
+
+
+def get_configs():
+    return [
+        {"name": "logreg_C1.0",
+         "estimator": LogisticRegression(C=1.0, max_iter=1000, random_state=RANDOM_STATE, n_jobs=-1),
+         "params": {"model_type": "logreg", "C": 1.0, "max_iter": 1000}},
+        {"name": "logreg_C0.1",
+         "estimator": LogisticRegression(C=0.1, max_iter=1000, random_state=RANDOM_STATE, n_jobs=-1),
+         "params": {"model_type": "logreg", "C": 0.1, "max_iter": 1000}},
+        {"name": "rf_100",
+         "estimator": RandomForestClassifier(n_estimators=100, random_state=RANDOM_STATE, n_jobs=-1),
+         "params": {"model_type": "random_forest", "n_estimators": 100}},
+        {"name": "rf_300_depth10",
+         "estimator": RandomForestClassifier(n_estimators=300, max_depth=10, random_state=RANDOM_STATE, n_jobs=-1),
+         "params": {"model_type": "random_forest", "n_estimators": 300, "max_depth": 10}},
+        {"name": "gb_150_lr0.05",
+         "estimator": GradientBoostingClassifier(n_estimators=150, learning_rate=0.05, random_state=RANDOM_STATE),
+         "params": {"model_type": "gradient_boosting", "n_estimators": 150, "learning_rate": 0.05}},
+    ]
+
+
+def register_model(run_id, model_name, description):
+    model_uri = f"runs:/{run_id}/model"
+    result = mlflow.register_model(model_uri=model_uri, name=model_name)
+    client = MlflowClient()
+    client.update_model_version(name=model_name, version=result.version, description=description)
+    return model_uri, int(result.version)
+
+
+def set_alias(model_name, version, alias):
+    client = MlflowClient()
+    client.set_registered_model_alias(name=model_name, alias=alias, version=str(version))
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--n-runs", type=int, default=5)
+    args = parser.parse_args()
+
+    print("=" * 70)
+    print(" FASE 1 - Entrenamiento con MLflow + Model Registry")
+    print("=" * 70)
+    print(f" Tracking URI   : {TRACKING_URI}")
+    print(f" Experiment     : {EXPERIMENT_NAME}")
+    print(f" Model Registry : {MODEL_NAME}")
+    print(f" Alias final    : {MODEL_ALIAS}")
+    print(f" Runs a ejecutar: {args.n_runs}")
+    print("=" * 70)
+
+    mlflow.set_tracking_uri(TRACKING_URI)
+    mlflow.set_experiment(EXPERIMENT_NAME)
+
+    print("\n[1] Cargando dataset...")
+    df = binarize_target(load_dataset())
+    X_train, X_test, y_train, y_test = split_train_test(df)
+    print(f"    Train: {len(X_train):,} | Test: {len(X_test):,}")
+
+    print("[2] Guardando baseline para drift (Fase 4)...")
+    baseline_path = save_baseline(X_train, n_rows=5000)
+    print(f"    OK -> {baseline_path}")
+
+    configs = get_configs()[: args.n_runs]
+    runs_summary = []
+
+    for i, cfg in enumerate(configs, start=1):
+        print(f"\n[3.{i}] Entrenando: {cfg['name']}")
+        preprocessor = build_preprocessor()
+        pipeline = Pipeline(steps=[("preprocessor", preprocessor), ("clf", cfg["estimator"])])
+
+        with mlflow.start_run(run_name=cfg["name"]) as run:
+            mlflow.log_params(cfg["params"])
+            mlflow.log_param("random_state", RANDOM_STATE)
+            pipeline.fit(X_train, y_train)
+            metrics = evaluate(pipeline, X_test, y_test)
+            mlflow.log_metrics(metrics)
+            mlflow.set_tag("phase", "fase1")
+            mlflow.set_tag("dataset", "bank-full")
+            mlflow.sklearn.log_model(sk_model=pipeline, artifact_path="model")
+            runs_summary.append({"name": cfg["name"], "run_id": run.info.run_id,
+                                 "f1": metrics["f1"], "roc_auc": metrics["roc_auc"]})
+            print(f"    f1={metrics['f1']:.4f} | roc_auc={metrics['roc_auc']:.4f} | run_id={run.info.run_id[:8]}...")
+
+    runs_summary.sort(key=lambda r: r["f1"], reverse=True)
+    best = runs_summary[0]
+    second = runs_summary[1] if len(runs_summary) > 1 else runs_summary[0]
+
+    print("\n[4] Ranking por F1:")
+    for pos, r in enumerate(runs_summary, start=1):
+        print(f"    {pos}. {r['name']:<20} f1={r['f1']:.4f} roc_auc={r['roc_auc']:.4f} run={r['run_id'][:8]}...")
+
+    print("\n[5] Registrando versiones en el Model Registry...")
+    _, v1 = register_model(second["run_id"], MODEL_NAME,
+                           f"v1 (baseline) - {second['name']} - f1={second['f1']:.4f}")
+    print(f"    Version {v1} <- run {second['run_id'][:8]} ({second['name']})")
+    _, v2 = register_model(best["run_id"], MODEL_NAME,
+                           f"v2 (best) - {best['name']} - f1={best['f1']:.4f}")
+    print(f"    Version {v2} <- run {best['run_id'][:8]} ({best['name']})")
+
+    print(f"\n[6] Marcando version {v2} con alias '{MODEL_ALIAS}'...")
+    set_alias(MODEL_NAME, v2, MODEL_ALIAS)
+    print(f"    OK: {MODEL_NAME}@{MODEL_ALIAS} -> version {v2}")
+
+    print("\n[7] Verificando carga por alias...")
+    uri = f"models:/{MODEL_NAME}@{MODEL_ALIAS}"
+    loaded = mlflow.sklearn.load_model(uri)
+    loaded_metrics = evaluate(loaded, X_test, y_test)
+    print(f"    Cargado OK desde {uri}")
+    print(f"    f1 del modelo cargado: {loaded_metrics['f1']:.4f}")
+
+    print("\n" + "=" * 70)
+    print(" FASE 1 COMPLETADA")
+    print("=" * 70)
+    print(f" Abre MLflow UI: {TRACKING_URI}")
+    print(f" - Experiment: {EXPERIMENT_NAME} ({len(runs_summary)} runs)")
+    print(f" - Registry  : {MODEL_NAME} (versiones {v1}, {v2})")
+    print(f" - Alias     : {MODEL_NAME}@{MODEL_ALIAS} = version {v2}")
+    print("=" * 70)
+
+
+if __name__ == "__main__":
+    main()
+ 
+================================= 
+src\utils.py 
+================================= 
+ 
+﻿"""Utilidades comunes: carga, split y baseline."""
+
+from __future__ import annotations
+from pathlib import Path
+import pandas as pd
+from sklearn.model_selection import train_test_split
+
+RANDOM_STATE = 42
+TEST_SIZE = 0.20
+TARGET_COL = "y"
+CSV_SEP = ";"
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+DATA_RAW = PROJECT_ROOT / "data" / "raw" / "bank-full.csv"
+DATA_BASELINE_DIR = PROJECT_ROOT / "data" / "baseline"
+BASELINE_FILE = DATA_BASELINE_DIR / "baseline.csv"
+
+EXPECTED_COLUMNS = [
+    "age", "job", "marital", "education", "default", "balance",
+    "housing", "loan", "contact", "day", "month", "duration",
+    "campaign", "pdays", "previous", "poutcome", "y",
+]
+
+NUMERIC_COLS = ["age", "balance", "day", "duration", "campaign", "pdays", "previous"]
+CATEGORICAL_COLS = [
+    "job", "marital", "education", "default", "housing", "loan",
+    "contact", "month", "poutcome",
+]
+
+
+def load_dataset(path=None) -> pd.DataFrame:
+    csv_path = Path(path) if path is not None else DATA_RAW
+    if not csv_path.exists():
+        raise FileNotFoundError(f"No se encontro el CSV en: {csv_path}")
+    df = pd.read_csv(csv_path, sep=CSV_SEP)
+    missing = set(EXPECTED_COLUMNS) - set(df.columns)
+    if missing:
+        raise ValueError(f"Faltan columnas esperadas: {missing}")
+    return df
+
+
+def binarize_target(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+    if df[TARGET_COL].dtype == object:
+        df[TARGET_COL] = df[TARGET_COL].map({"yes": 1, "no": 0}).astype(int)
+    return df
+
+
+def split_train_test(df, test_size=TEST_SIZE, random_state=RANDOM_STATE):
+    X = df.drop(columns=[TARGET_COL])
+    y = df[TARGET_COL]
+    return train_test_split(X, y, test_size=test_size,
+                            random_state=random_state, stratify=y)
+
+
+def save_baseline(X_train, n_rows=5000, random_state=RANDOM_STATE):
+    DATA_BASELINE_DIR.mkdir(parents=True, exist_ok=True)
+    n = min(n_rows, len(X_train))
+    baseline = X_train.sample(n=n, random_state=random_state).reset_index(drop=True)
+    baseline.to_csv(BASELINE_FILE, index=False)
+    return BASELINE_FILE
+
+
+def load_baseline() -> pd.DataFrame:
+    if not BASELINE_FILE.exists():
+        raise FileNotFoundError(
+            f"No existe baseline en {BASELINE_FILE}. Ejecuta scripts/run_prueba1.py"
+        )
+    return pd.read_csv(BASELINE_FILE)
+ 
+================================= 
+src\__init__.py 
+================================= 
+ 
+﻿# Paquete src
+ 
+================================= 
+src\drift\__init__.py 
+================================= 
+ 
+﻿# Paquete drift
+ 
+================================= 
+src\inference\app.py 
+================================= 
+ 
+"""
+Servicio de inferencia - FastAPI.
+
+Endpoints:
+- GET  /health   -> liveness/readiness
+- GET  /info     -> metadatos del modelo cargado (version, run_id, pod)
+- POST /predict  -> prediccion a partir de un JSON con las 16 features
+
+Devuelve el HOSTNAME (nombre del pod en K8s) en cada respuesta para
+demostrar balanceo de carga entre replicas.
+"""
+
+from __future__ import annotations
+
+import os
+import socket
+import sys
+from pathlib import Path
+from typing import Literal
+
+# Permitir ejecutar el modulo desde cualquier cwd
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel, Field
+
+from src.inference.model_loader import get_model_info, load_model
+
+# Identificador del pod / contenedor
+POD_NAME = os.getenv("HOSTNAME", socket.gethostname())
+
+app = FastAPI(
+    title="Bank Deposit Classifier API",
+    description="Servicio de inferencia para predecir contratacion de deposito a plazo.",
+    version="1.0.0",
+)
+
+
+# ---------------------------------------------------------------------
+# Schemas
+# ---------------------------------------------------------------------
+class PredictRequest(BaseModel):
+    age: int = Field(..., ge=18, le=100, example=35)
+    job: str = Field(..., example="management")
+    marital: str = Field(..., example="married")
+    education: str = Field(..., example="tertiary")
+    default: Literal["yes", "no"] = Field(..., example="no")
+    balance: int = Field(..., example=1500)
+    housing: Literal["yes", "no"] = Field(..., example="yes")
+    loan: Literal["yes", "no"] = Field(..., example="no")
+    contact: str = Field(..., example="cellular")
+    day: int = Field(..., ge=1, le=31, example=15)
+    month: str = Field(..., example="may")
+    duration: int = Field(..., ge=0, example=200)
+    campaign: int = Field(..., ge=1, example=1)
+    pdays: int = Field(..., example=-1)
+    previous: int = Field(..., ge=0, example=0)
+    poutcome: str = Field(..., example="unknown")
+
+
+class PredictResponse(BaseModel):
+    prediction: int
+    prediction_label: str
+    probability_yes: float
+    pod: str
+    model_version: str | None = None
+
+
+# ---------------------------------------------------------------------
+# Carga del modelo al arrancar (falla rapido si no esta)
+# ---------------------------------------------------------------------
+_model = None
+
+
+@app.on_event("startup")
+def _startup() -> None:
+    global _model
+    try:
+        _model = load_model()
+    except Exception as exc:  # noqa: BLE001
+        # Dejamos que el contenedor arranque, pero /predict fallara
+        print(f"[startup] ERROR cargando modelo: {exc}", flush=True)
+
+
+# ---------------------------------------------------------------------
+# Endpoints
+# ---------------------------------------------------------------------
+@app.get("/health")
+def health() -> dict:
+    return {"status": "ok", "pod": POD_NAME}
+
+
+@app.get("/info")
+def info() -> dict:
+    return {"pod": POD_NAME, **get_model_info()}
+
+
+@app.post("/predict", response_model=PredictResponse)
+def predict(req: PredictRequest) -> PredictResponse:
+    global _model
+    if _model is None:
+        try:
+            _model = load_model()
+        except Exception as exc:  # noqa: BLE001
+            raise HTTPException(status_code=503, detail=f"Modelo no disponible: {exc}")
+
+    # Convertir a DataFrame de una fila respetando nombres de columnas
+    import pandas as pd
+
+    payload = req.model_dump()
+    X = pd.DataFrame([payload])
+
+    proba = float(_model.predict_proba(X)[0, 1])
+    pred = int(proba >= 0.5)
+
+    info_dict = get_model_info()
+    return PredictResponse(
+        prediction=pred,
+        prediction_label="yes" if pred == 1 else "no",
+        probability_yes=round(proba, 6),
+        pod=POD_NAME,
+        model_version=str(info_dict.get("version")) if info_dict.get("version") else None,
+    ) 
+================================= 
+src\inference\model_loader.py 
+================================= 
+ 
+﻿"""Carga del modelo desde MLflow Model Registry por ALIAS."""
+
+from __future__ import annotations
+import os
+from functools import lru_cache
+import mlflow
+import mlflow.sklearn
+
+TRACKING_URI = os.getenv("MLFLOW_TRACKING_URI", "http://localhost:5000")
+MODEL_NAME = os.getenv("MLFLOW_MODEL_NAME", "bank_deposit_classifier")
+MODEL_ALIAS = os.getenv("MLFLOW_MODEL_ALIAS", "champion")
+
+
+def _model_uri() -> str:
+    return f"models:/{MODEL_NAME}@{MODEL_ALIAS}"
+
+
+@lru_cache(maxsize=1)
+def load_model():
+    mlflow.set_tracking_uri(TRACKING_URI)
+    return mlflow.sklearn.load_model(_model_uri())
+
+
+def get_model_info() -> dict:
+    from mlflow import MlflowClient
+    mlflow.set_tracking_uri(TRACKING_URI)
+    client = MlflowClient()
+    try:
+        mv = client.get_model_version_by_alias(MODEL_NAME, MODEL_ALIAS)
+        return {"model_name": MODEL_NAME, "alias": MODEL_ALIAS,
+                "version": mv.version, "run_id": mv.run_id, "source": mv.source}
+    except Exception as exc:
+        return {"model_name": MODEL_NAME, "alias": MODEL_ALIAS, "error": str(exc)}
+ 
+================================= 
+src\inference\__init__.py 
+================================= 
+ 
+﻿# Paquete inference
+ 
+================================= 
+tests\test_smoke.py 
+================================= 
+ 
+﻿"""Prueba 1 - Smoke test del dataset y pipeline base."""
+
+import pandas as pd
+import pytest
+
+from src.utils import (
+    BASELINE_FILE, CATEGORICAL_COLS, EXPECTED_COLUMNS, NUMERIC_COLS,
+    TARGET_COL, binarize_target, load_baseline, load_dataset,
+    save_baseline, split_train_test,
+)
+
+
+def test_dataset_loads_and_has_expected_columns():
+    df = load_dataset()
+    assert isinstance(df, pd.DataFrame)
+    assert len(df) >= 1000
+    assert set(EXPECTED_COLUMNS).issubset(set(df.columns))
+    assert set(NUMERIC_COLS).issubset(set(df.columns))
+    assert set(CATEGORICAL_COLS).issubset(set(df.columns))
+
+
+def test_target_binarization_and_imbalance():
+    df = binarize_target(load_dataset())
+    assert df[TARGET_COL].isin([0, 1]).all()
+    positive_rate = df[TARGET_COL].mean()
+    assert 0.05 < positive_rate < 0.25
+
+
+def test_split_is_reproducible_and_stratified():
+    df = binarize_target(load_dataset())
+    X_tr1, X_te1, y_tr1, y_te1 = split_train_test(df)
+    X_tr2, X_te2, y_tr2, y_te2 = split_train_test(df)
+    assert X_tr1.equals(X_tr2)
+    assert y_tr1.equals(y_tr2)
+    assert abs(y_tr1.mean() - y_te1.mean()) < 0.01
+    assert abs(len(X_te1) / len(df) - 0.20) < 0.01
+
+
+def test_baseline_saves_and_reloads(tmp_path, monkeypatch):
+    from src import utils
+    fake_baseline = tmp_path / "baseline.csv"
+    monkeypatch.setattr(utils, "BASELINE_FILE", fake_baseline)
+    monkeypatch.setattr(utils, "DATA_BASELINE_DIR", tmp_path)
+
+    df = binarize_target(load_dataset())
+    X_train, _, _, _ = split_train_test(df)
+    path = save_baseline(X_train, n_rows=200)
+    assert path.exists()
+    reloaded = pd.read_csv(path)
+    assert len(reloaded) == 200
+    assert set(NUMERIC_COLS + CATEGORICAL_COLS).issubset(set(reloaded.columns))
+    assert TARGET_COL not in reloaded.columns
+
+
+def test_scripts_have_expected_real_baseline():
+    if not BASELINE_FILE.exists():
+        pytest.skip("Baseline real no generado aun. Ejecuta scripts/run_prueba1.py")
+    baseline = load_baseline()
+    assert len(baseline) > 0
+    assert TARGET_COL not in baseline.columns
+    assert set(NUMERIC_COLS + CATEGORICAL_COLS).issubset(set(baseline.columns))
+ 
+================================= 
+tests\__init__.py 
+================================= 
+ 
+﻿# Paquete tests
+ 

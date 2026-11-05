@@ -1,0 +1,23 @@
+# Ignorar en el build
+.git
+.gitignore
+.venv
+venv
+env
+__pycache__
+*.pyc
+*.pyo
+.pytest_cache
+mlruns
+mlruns/
+mlflow.db
+mlartifacts
+mlartifacts/
+docs/evidencias
+image.png
+*.log
+.env
+.vscode
+.idea
+data/raw
+data/baseline
