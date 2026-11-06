@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bank-inference
+  namespace: bank-mlops
+  labels:
+    app: bank-inference
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: bank-inference
+  template:
+    metadata:
+      labels:
+        app: bank-inference
+    spec:
+      containers:
+        - name: bank-inference
+          image: bank-inference:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          env:
+            - name: MLFLOW_TRACKING_URI
+              value: "http://host.docker.internal:5000"
+            - name: MLFLOW_MODEL_NAME
+              value: "bank_deposit_classifier"
+            - name: MLFLOW_MODEL_ALIAS
+              value: "champion"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
